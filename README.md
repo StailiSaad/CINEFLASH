@@ -265,7 +265,11 @@ Distribué sous licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
 
 ## 👤 Auteur
 
-**Saad Staili** — [GitHub](https://github.com/StailiSaad) — saadstaili1903@gmail.com
+**Saad Staili** 
+
+- 📧 Email : saadstaili1903@gmail.com
+- 💼 LinkedIn : [Saad Staili](https://linkedin.com/in/saad-staili)
+- 🐙 GitHub : [@StailiSaad](https://github.com/StailiSaad)
 
 ---
 
