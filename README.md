@@ -26,47 +26,25 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 
 ## 🖼️ Captures d'écran
 
-### Accueil & Navigation
-
-| Écran d'accueil | Films tendances en carrousel |
+| Écran d'accueil | Trending Movies & TV |
 |:-:|:-:|
-| <img src="screenshots/home.jpeg" alt="Home Screen" width="250"/> | <img src="screenshots/home.jpeg" alt="Home Carousel" width="250"/> |
+| <img src="screenshots/home.jpeg" alt="Home Screen" width="250"/> | <img src="screenshots/trending.jpeg" alt="Trending" width="250"/> |
 
-### Trending Movies & Trending TV Shows
-
-| Section des tendances |
-|:-:|
-| <img src="screenshots/trending.jpeg" alt="Trending Movies & TV Shows" width="250"/> |
-
-### Popular & Top Rated
-
-| Films populaires et mieux notés |
-|:-:|
-| <img src="screenshots/popular_toprated.jpeg" alt="Popular & Top Rated" width="250"/> |
-
-### Recherche
-
-| Barre de recherche | Résultats de recherche |
+| Popular & Top Rated | Recherche |
 |:-:|:-:|
-| <img src="screenshots/search.jpeg" alt="Search" width="250"/> | <img src="screenshots/search.jpeg" alt="Search Results" width="250"/> |
+| <img src="screenshots/popular_toprated.jpeg" alt="Popular & Top Rated" width="250"/> | <img src="screenshots/search.jpeg" alt="Search" width="250"/> |
 
-### Détails d'un film
-
-| Informations & casting | Bande-annonce intégrée & YouTube |
+| Détails film | Bande-annonce & YouTube |
 |:-:|:-:|
 | <img src="screenshots/details1.jpeg" alt="Film Details" width="250"/> | <img src="screenshots/details2.jpeg" alt="Trailer" width="250"/> |
 
-### Ajout à la Watchlist
-
-| Bouton d'ajout |
-|:-:|
-| <img src="screenshots/watchlist_button.jpeg" alt="Add to Watchlist" width="250"/> |
-
-### Watchlist & Films vus
-
-| Watchlist | Films marqués comme vus |
+| Ajout Watchlist | Watchlist |
 |:-:|:-:|
-| <img src="screenshots/watchlist.jpeg" alt="Watchlist Screen" width="250"/> | <img src="screenshots/seen.jpeg" alt="Seen Movies" width="250"/> |
+| <img src="screenshots/watchlist_button.jpeg" alt="Add to Watchlist" width="250"/> | <img src="screenshots/watchlist.jpeg" alt="Watchlist Screen" width="250"/> |
+
+| Films vus |
+|:-:|
+| <img src="screenshots/seen.jpeg" alt="Seen Movies" width="250"/> |
 
 ---
 
