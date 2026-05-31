@@ -1,4 +1,6 @@
-[<img src="screenshots/icon.png" alt="CineFlash Logo" width="120"/>](screenshots/icon.png)
+<p align="center">
+  <img src="screenshots/icon.png" alt="CineFlash Logo" width="150"/>
+</p>
 
 # 🎬 CineFlash
 
@@ -29,6 +31,18 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 | Écran d'accueil | Films tendances en carrousel |
 |:-:|:-:|
 | <img src="screenshots/home.jpeg" alt="Home Screen" width="250"/> | <img src="screenshots/home.jpeg" alt="Home Carousel" width="250"/> |
+
+### Trending Movies & Trending TV Shows
+
+| Section des tendances |
+|:-:|
+| <img src="screenshots/trending.jpeg" alt="Trending Movies & TV Shows" width="250"/> |
+
+### Popular & Top Rated
+
+| Films populaires et mieux notés |
+|:-:|
+| <img src="screenshots/popular_toprated.jpeg" alt="Popular & Top Rated" width="250"/> |
 
 ### Recherche
 

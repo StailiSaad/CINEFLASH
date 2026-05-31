@@ -1,0 +1,4 @@
+storePassword=cineflash123
+keyPassword=cineflash123
+keyAlias=upload
+storeFile=upload-keystore.jks
