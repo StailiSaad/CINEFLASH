@@ -1,3 +1,5 @@
+[<img src="screenshots/icon.png" alt="CineFlash Logo" width="120"/>](screenshots/icon.png)
+
 # 🎬 CineFlash
 
 > Votre application intelligente de suivi de films et séries
@@ -22,11 +24,35 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 
 ## 🖼️ Captures d'écran
 
-> *\[Insérez ici vos captures d'écran\]*
+### Accueil & Navigation
 
-| Accueil | Détails | Watchlist |
-|---------|---------|-----------|
-| `screenshot_home.png` | `screenshot_details.png` | `screenshot_watchlist.png` |
+| Écran d'accueil | Films tendances en carrousel |
+|:-:|:-:|
+| <img src="screenshots/home.jpeg" alt="Home Screen" width="250"/> | <img src="screenshots/home.jpeg" alt="Home Carousel" width="250"/> |
+
+### Recherche
+
+| Barre de recherche | Résultats de recherche |
+|:-:|:-:|
+| <img src="screenshots/search.jpeg" alt="Search" width="250"/> | <img src="screenshots/search.jpeg" alt="Search Results" width="250"/> |
+
+### Détails d'un film
+
+| Informations & casting | Bande-annonce intégrée & YouTube |
+|:-:|:-:|
+| <img src="screenshots/details1.jpeg" alt="Film Details" width="250"/> | <img src="screenshots/details2.jpeg" alt="Trailer" width="250"/> |
+
+### Ajout à la Watchlist
+
+| Bouton d'ajout |
+|:-:|
+| <img src="screenshots/watchlist_button.jpeg" alt="Add to Watchlist" width="250"/> |
+
+### Watchlist & Films vus
+
+| Watchlist | Films marqués comme vus |
+|:-:|:-:|
+| <img src="screenshots/watchlist.jpeg" alt="Watchlist Screen" width="250"/> | <img src="screenshots/seen.jpeg" alt="Seen Movies" width="250"/> |
 
 ---
 
@@ -187,6 +213,7 @@ CINEFLASH/
 │           ├── security/
 │           └── service/
 ├── pic/                         # Ressources icônes
+├── screenshots/                 # Captures d'écran pour le README
 └── README.md
 ```
 
