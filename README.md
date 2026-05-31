@@ -80,11 +80,13 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 
 ### APK Android (recommandé)
 
-Téléchargez le dernier APK depuis la section [Releases](https://github.com/StailiSaad/CINEFLASH/releases).
+Téléchargez le dernier APK depuis la section [Releases](https://github.com/StailiSaad/CINEFLASH/releases/latest).
+
+[<img src="https://img.shields.io/badge/Download-v1.0.0-brightgreen?style=for-the-badge&logo=android" alt="Download APK" width="250"/>](https://github.com/StailiSaad/CINEFLASH/releases/download/v1.0.0/CineFlash-v1.0.0.apk)
 
 ```bash
 # Installation via ADB
-adb install app-release.apk
+adb install CineFlash-v1.0.0.apk
 ```
 
 ### Build depuis les sources
