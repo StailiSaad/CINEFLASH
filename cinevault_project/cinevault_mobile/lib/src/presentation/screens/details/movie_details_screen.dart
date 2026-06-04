@@ -183,9 +183,9 @@ class MovieDetailsView extends StatelessWidget {
             Image.network(
               '${ApiConstants.tmdbImageBaseUrl}/${ApiConstants.posterSize}${movie.posterPath ?? movie.backdropPath}',
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (ctx, __, ___) => Container(
                 color: context.surface,
-                child: const Center(child: Icon(Icons.movie_outlined, size: 50, color: AppColors.textMuted)),
+                child: Center(child: Icon(Icons.movie_outlined, size: 50, color: ctx.textMuted)),
               ),
             ),
             DecoratedBox(
@@ -328,6 +328,7 @@ class MovieDetailsView extends StatelessWidget {
       children: [
         Expanded(
           child: _buildButton(
+            context,
             icon: inWatchlist ? Icons.bookmark : Icons.bookmark_border,
             label: inWatchlist ? 'In Watchlist' : 'Watchlist',
             isActive: inWatchlist,
@@ -337,6 +338,7 @@ class MovieDetailsView extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _buildButton(
+            context,
             icon: watched ? Icons.check_circle : Icons.check_circle_outline,
             label: watched ? 'Seen' : 'Mark Seen',
             isActive: watched,
@@ -347,7 +349,8 @@ class MovieDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildButton({
+  Widget _buildButton(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required bool isActive,

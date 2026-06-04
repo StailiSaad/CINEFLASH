@@ -9,17 +9,37 @@ class AppColors {
   static const Color accentDark = Color(0xFFD97706);
   static const Color success = Color(0xFF10B981);
   static const Color error = Color(0xFFEF4444);
+
+  // Default fallback colors (dark theme)
+  static const Color background = Color(0xFF0F1117);
+  static const Color surface = Color(0xFF1F2937);
+  static const Color surfaceLight = Color(0xFF374151);
+  static const Color textPrimary = Color(0xFFF9FAFB);
+  static const Color textSecondary = Color(0xFF9CA3AF);
+  static const Color textMuted = Color(0xFF6B7280);
+
+  static const Gradient heroGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Colors.transparent, Color(0xCC0F1117)],
+  );
+
+  static const Gradient cardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF1F2937), Color(0xFF111827)],
+  );
 }
 
 extension ThemeColors on BuildContext {
   bool get isDark => Theme.of(this).brightness == Brightness.dark;
 
-  Color get background => isDark ? const Color(0xFF0F1117) : const Color(0xFFF3F4F6);
-  Color get surface => isDark ? const Color(0xFF1F2937) : const Color(0xFFFFFFFF);
-  Color get surfaceLight => isDark ? const Color(0xFF374151) : const Color(0xFFE5E7EB);
-  Color get textPrimary => isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
-  Color get textSecondary => isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280);
-  Color get textMuted => isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF);
+  Color get background => isDark ? AppColors.background : const Color(0xFFF3F4F6);
+  Color get surface => isDark ? AppColors.surface : const Color(0xFFFFFFFF);
+  Color get surfaceLight => isDark ? AppColors.surfaceLight : const Color(0xFFE5E7EB);
+  Color get textPrimary => isDark ? AppColors.textPrimary : const Color(0xFF111827);
+  Color get textSecondary => isDark ? AppColors.textSecondary : const Color(0xFF6B7280);
+  Color get textMuted => isDark ? AppColors.textMuted : const Color(0xFF9CA3AF);
 
   Gradient get heroGradient => LinearGradient(
     begin: Alignment.topCenter,
@@ -34,7 +54,7 @@ extension ThemeColors on BuildContext {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      isDark ? const Color(0xFF1F2937) : const Color(0xFFFFFFFF),
+      isDark ? AppColors.surface : const Color(0xFFFFFFFF),
       isDark ? const Color(0xFF111827) : const Color(0xFFF3F4F6),
     ],
   );
@@ -46,9 +66,6 @@ class AppTheme {
 
   static ThemeData _buildTheme(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
-    final colors = isDark
-        ? _DarkColors()
-        : _LightColors();
 
     return ThemeData(
       useMaterial3: true,
@@ -56,10 +73,10 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: brightness,
-        surface: colors.surface,
-        background: colors.background,
+        surface: isDark ? AppColors.surface : Colors.white,
+        background: isDark ? AppColors.background : const Color(0xFFF3F4F6),
       ),
-      scaffoldBackgroundColor: colors.background,
+      scaffoldBackgroundColor: isDark ? AppColors.background : const Color(0xFFF3F4F6),
       textTheme: GoogleFonts.interTextTheme(
         isDark ? ThemeData.dark().textTheme : ThemeData.light().textTheme,
       ).copyWith(
@@ -76,11 +93,11 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: colors.surface,
+        color: isDark ? AppColors.surface : Colors.white,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colors.surfaceLight,
+        fillColor: isDark ? AppColors.surfaceLight : const Color(0xFFE5E7EB),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -97,41 +114,23 @@ class AppTheme {
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: colors.surface,
+        backgroundColor: isDark ? AppColors.surface : Colors.white,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: colors.textMuted,
+        unselectedItemColor: isDark ? AppColors.textMuted : const Color(0xFF9CA3AF),
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
-        backgroundColor: colors.background,
-        foregroundColor: colors.textPrimary,
+        backgroundColor: isDark ? AppColors.background : const Color(0xFFF3F4F6),
+        foregroundColor: isDark ? AppColors.textPrimary : Colors.black87,
         titleTextStyle: GoogleFonts.inter(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: colors.textPrimary,
+          color: isDark ? AppColors.textPrimary : Colors.black87,
         ),
       ),
     );
   }
-}
-
-class _DarkColors {
-  final Color background = const Color(0xFF0F1117);
-  final Color surface = const Color(0xFF1F2937);
-  final Color surfaceLight = const Color(0xFF374151);
-  final Color textPrimary = const Color(0xFFF9FAFB);
-  final Color textSecondary = const Color(0xFF9CA3AF);
-  final Color textMuted = const Color(0xFF6B7280);
-}
-
-class _LightColors {
-  final Color background = const Color(0xFFF3F4F6);
-  final Color surface = const Color(0xFFFFFFFF);
-  final Color surfaceLight = const Color(0xFFE5E7EB);
-  final Color textPrimary = const Color(0xFF111827);
-  final Color textSecondary = const Color(0xFF6B7280);
-  final Color textMuted = const Color(0xFF9CA3AF);
 }
