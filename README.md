@@ -20,7 +20,8 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 - **Mode hors ligne** — Consultation de votre bibliothèque sans internet
 - **Synchronisation cloud** — Sauvegarde sur Supabase (compte requis)
 - **Recommandations IA** — Suggestions personnalisées via Hugging Face
-- **Thème sombre** — Interface moderne avec Material You
+- **Thème sombre/clair** — Basculez entre les modes avec un Switch dans le profil
+- **Recommandations IA** — Suggestions personnalisées via Hugging Face
 
 ---
 
@@ -82,11 +83,11 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 
 Téléchargez le dernier APK depuis la section [Releases](https://github.com/StailiSaad/CINEFLASH/releases/latest).
 
-[<img src="https://img.shields.io/badge/Download-v1.0.0-brightgreen?style=for-the-badge&logo=android" alt="Download APK" width="250"/>](https://github.com/StailiSaad/CINEFLASH/releases/download/v1.0.0/CineFlash-v1.0.0.apk)
+[<img src="https://img.shields.io/badge/Download-v1.1.0-brightgreen?style=for-the-badge&logo=android" alt="Download APK" width="250"/>](https://github.com/StailiSaad/CINEFLASH/releases/download/v1.1.0/CineFlash.apk)
 
 ```bash
 # Installation via ADB
-adb install CineFlash-v1.0.0.apk
+adb install CineFlash.apk
 ```
 
 ### Build depuis les sources
@@ -128,7 +129,7 @@ flutter build apk --release
 |---------|---------|
 | `flutter_bloc` | Gestion d'état |
 | `go_router` | Navigation déclarative |
-| `dio` | Requêtes HTTP |
+| `http` | Requêtes HTTP |
 | `sqflite` | Base de données locale |
 | `supabase_flutter` | Authentification & sync cloud |
 | `youtube_player_flutter` | Lecture des bandes-annonces |
