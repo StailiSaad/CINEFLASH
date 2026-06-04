@@ -47,6 +47,10 @@ CineFlash est une application mobile cross-platform (Flutter) qui vous permet de
 |:-:|
 | <img src="screenshots/seen.jpeg" alt="Seen Movies" width="250"/> |
 
+| Mode Clair | Mode Sombre |
+|:-:|:-:|
+| <img src="screenshots/mode_clair.jpeg" alt="Light Mode" width="250"/> | <img src="screenshots/mode_sombre.jpeg" alt="Dark Mode" width="250"/> |
+
 ---
 
 ## 🏗️ Architecture Technique
