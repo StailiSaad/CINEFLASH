@@ -278,4 +278,3 @@ Distribué sous licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
 
 ---
 
-*Projet développé avec Flutter et ❤️*
