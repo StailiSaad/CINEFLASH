@@ -29,10 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
     return Scaffold(
-      backgroundColor: isDark ? AppColors.background : Colors.grey[50],
+      backgroundColor: context.background,
       body: RefreshIndicator(
         onRefresh: () async {
           context.read<MoviesBloc>().add(RefreshMovies());
@@ -141,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title,
       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AppColors.textPrimary,
+        color: context.textPrimary,
       ),
     );
   }

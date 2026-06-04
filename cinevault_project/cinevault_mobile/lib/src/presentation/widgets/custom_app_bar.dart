@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget {
     return SliverAppBar(
       floating: true,
       pinned: true,
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.9),
+      backgroundColor: context.surface.withOpacity(0.9),
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         title: Row(
@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget {
               'CineFlash',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
               ),
             ),
           ],
@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.search, color: AppColors.textPrimary),
+          icon: const Icon(Icons.search, color: AppColors.primary),
           onPressed: () {
             context.go(AppRoutes.search);
           },

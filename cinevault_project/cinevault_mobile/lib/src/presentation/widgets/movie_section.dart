@@ -63,7 +63,7 @@ class _MovieCard extends StatelessWidget {
                 errorBuilder: (_, __, ___) => Container(
                   height: 200,
                   width: 150,
-                  color: AppColors.surface,
+                  color: context.surface,
                   child: const Icon(Icons.movie, color: AppColors.textMuted),
                 ),
               ),
@@ -74,7 +74,7 @@ class _MovieCard extends StatelessWidget {
               movie.displayTitle,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -88,7 +88,7 @@ class _MovieCard extends StatelessWidget {
                 Text(
                   movie.voteAverage?.toStringAsFixed(1) ?? 'N/A',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ),
               ],

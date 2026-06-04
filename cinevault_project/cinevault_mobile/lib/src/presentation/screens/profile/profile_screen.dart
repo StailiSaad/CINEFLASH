@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
     final email = currentUser?.email ?? 'No Active Session';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       body: CustomScrollView(
         slivers: [
           _buildSliverAppBar(context, email),
@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildStatsSection(database),
+                  _buildStatsSection(context, database),
                   const SizedBox(height: 32),
                   _buildMenuSection(context),
                   const SizedBox(height: 50),
@@ -47,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildSliverAppBar(BuildContext context, String email) {
     return SliverAppBar(
       expandedHeight: 280,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.primary.withOpacity(0.3),
-                    AppColors.background,
+                    context.background,
                   ],
                 ),
               ),
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: AppColors.surface,
+                    backgroundColor: context.surface,
                     child: const Icon(Icons.person, size: 50, color: AppColors.primary),
                   ),
                 ),
@@ -87,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                   style: GoogleFonts.outfit(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: context.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                   email,
                   style: GoogleFonts.outfit(
                     fontSize: 14,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ),
               ],
@@ -106,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSection(AppDatabase database) {
+  Widget _buildStatsSection(BuildContext context, AppDatabase database) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -115,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: context.textPrimary,
           ),
         ),
         const SizedBox(height: 16),
@@ -127,6 +127,7 @@ class ProfileScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   final count = snapshot.data?.length ?? 0;
                   return _buildStatCard(
+                    context,
                     'Archive',
                     count.toString(),
                     'Items Seen',
@@ -143,6 +144,7 @@ class ProfileScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   final count = snapshot.data?.length ?? 0;
                   return _buildStatCard(
+                    context,
                     'Vault',
                     count.toString(),
                     'To Watch',
@@ -158,13 +160,13 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String label, String value, String sublabel, IconData icon, Color color) {
+  Widget _buildStatCard(BuildContext context, String label, String value, String sublabel, IconData icon, Color color) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.textMuted.withOpacity(0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,14 +185,14 @@ class ProfileScreen extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: context.textPrimary,
             ),
           ),
           Text(
             sublabel,
             style: GoogleFonts.outfit(
               fontSize: 12,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
             ),
           ),
         ],
@@ -207,22 +209,25 @@ class ProfileScreen extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: context.textPrimary,
           ),
         ),
         const SizedBox(height: 16),
         BlocBuilder<AppBloc, AppState>(
           builder: (context, state) {
             final isDark = state is AppReady ? state.isDarkMode : true;
-            return _buildMenuItem(
+            return _buildSwitchItem(
+              context,
               Icons.color_lens_outlined,
               'Theme',
-              isDark ? 'Dark Mode active' : 'Light Mode active',
-              onTap: () => context.read<AppBloc>().add(ToggleTheme()),
+              isDark ? 'Dark Mode' : 'Light Mode',
+              isDark,
+              (value) => context.read<AppBloc>().add(ToggleTheme()),
             );
           },
         ),
         _buildMenuItem(
+          context,
           Icons.info_outline_rounded,
           'About CineFlash',
           'Version 1.0.0',
@@ -234,6 +239,7 @@ class ProfileScreen extends StatelessWidget {
           },
         ),
         _buildMenuItem(
+          context,
           Icons.logout_rounded,
           'Logout',
           'Sign out of your account',
@@ -249,22 +255,22 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title, String subtitle, {VoidCallback? onTap}) {
+  Widget _buildMenuItem(BuildContext context, IconData icon, String title, String subtitle, {VoidCallback? onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
         title: Text(
           title,
-          style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.w600),
+          style: GoogleFonts.outfit(color: context.textPrimary, fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
           subtitle,
-          style: GoogleFonts.outfit(color: AppColors.textMuted, fontSize: 12),
+          style: GoogleFonts.outfit(color: context.textMuted, fontSize: 12),
         ),
         trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
         onTap: onTap,
@@ -272,5 +278,29 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-
+  Widget _buildSwitchItem(BuildContext context, IconData icon, String title, String subtitle, bool value, ValueChanged<bool> onChanged) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: context.surface,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: AppColors.primary),
+        title: Text(
+          title,
+          style: GoogleFonts.outfit(color: context.textPrimary, fontWeight: FontWeight.w600),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: GoogleFonts.outfit(color: context.textMuted, fontSize: 12),
+        ),
+        trailing: Switch(
+          value: value,
+          onChanged: onChanged,
+          activeColor: AppColors.primary,
+        ),
+      ),
+    );
+  }
 }

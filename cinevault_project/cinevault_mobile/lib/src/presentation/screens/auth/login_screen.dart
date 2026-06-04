@@ -57,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
         
-        // Trigger data sync/restore
         if (!_isSignUp) {
           setState(() {
             _isLoading = true;
@@ -85,10 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
     return Scaffold(
-      backgroundColor: isDark ? AppColors.background : Colors.grey[50],
+      backgroundColor: context.background,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -96,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Logo & App Name
               Hero(
                 tag: 'app_logo',
                 child: Container(
@@ -127,16 +123,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ? 'Create your account to sync your watchlist'
                     : 'Log in to access your saved movies',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
 
-              // Form Card
               Card(
                 elevation: 4,
-                shadowColor: isDark ? Colors.black45 : Colors.black12,
+                shadowColor: context.isDark ? Colors.black45 : Colors.black12,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -147,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Email Field
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -155,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'Email Address',
                             prefixIcon: const Icon(Icons.email_outlined),
                             filled: true,
-                            fillColor: isDark ? AppColors.surfaceLight.withOpacity(0.5) : Colors.grey[100],
+                            fillColor: context.surfaceLight.withOpacity(0.5),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -169,7 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Password Field
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
@@ -189,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                             filled: true,
-                            fillColor: isDark ? AppColors.surfaceLight.withOpacity(0.5) : Colors.grey[100],
+                            fillColor: context.surfaceLight.withOpacity(0.5),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -203,7 +196,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 24),
 
-                        // Submit Button
                         ElevatedButton(
                           onPressed: _isLoading ? null : _submit,
                           style: ElevatedButton.styleFrom(
@@ -238,14 +230,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Toggle Mode Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     _isSignUp ? 'Already have an account? ' : 'New to CineFlash? ',
                     style: TextStyle(
-                      color: isDark ? AppColors.textSecondary : Colors.black54,
+                      color: context.textSecondary,
                     ),
                   ),
                   GestureDetector(

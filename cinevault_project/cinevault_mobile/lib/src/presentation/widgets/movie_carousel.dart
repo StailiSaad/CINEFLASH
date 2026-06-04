@@ -26,12 +26,12 @@ class MovieCarousel extends StatelessWidget {
                 Image.network(
                   '${ApiConstants.tmdbImageBaseUrl}/${ApiConstants.backdropSize}${movie.backdropPath ?? movie.posterPath}',
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(color: AppColors.surface),
+                  errorBuilder: (_, __, ___) => Container(color: context.surface),
                 ),
                 // Gradient overlay
                 Container(
-                  decoration: const BoxDecoration(
-                    gradient: AppColors.heroGradient,
+                  decoration: BoxDecoration(
+                    gradient: context.heroGradient,
                   ),
                 ),
                 // Movie info
@@ -57,7 +57,7 @@ class MovieCarousel extends StatelessWidget {
                       Text(
                         movie.displayTitle,
                         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 2,
@@ -68,7 +68,7 @@ class MovieCarousel extends StatelessWidget {
                         Text(
                           movie.overview!,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                           ),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,

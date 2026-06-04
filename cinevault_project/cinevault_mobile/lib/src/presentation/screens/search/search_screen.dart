@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import 'package:cineflash/src/presentation/blocs/search/search_bloc.dart';
 import 'package:cineflash/src/core/di/injection.dart';
@@ -26,23 +25,23 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.background,
         elevation: 0,
         title: Container(
           height: 45,
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.surface,
             borderRadius: BorderRadius.circular(12),
           ),
           child: TextField(
             autofocus: true,
-            style: GoogleFonts.outfit(color: AppColors.textPrimary),
+            style: GoogleFonts.outfit(color: context.textPrimary),
             onChanged: (value) => context.read<SearchBloc>().add(SearchQueryChanged(value)),
             decoration: InputDecoration(
               hintText: 'Search movies...',
-              hintStyle: GoogleFonts.outfit(color: AppColors.textMuted),
+              hintStyle: GoogleFonts.outfit(color: context.textMuted),
               border: InputBorder.none,
               prefixIcon: const Icon(Icons.search, color: AppColors.primary),
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -58,7 +57,7 @@ class SearchView extends StatelessWidget {
           
           if (state is SearchSuccess) {
             if (state.results.isEmpty) {
-              return _buildMessage('No results found');
+              return _buildMessage(context, 'No results found');
             }
             return GridView.builder(
               padding: const EdgeInsets.all(16),
@@ -77,27 +76,27 @@ class SearchView extends StatelessWidget {
           }
 
           if (state is SearchError) {
-            return _buildMessage('Error occurred: ${state.message}');
+            return _buildMessage(context, 'Error occurred: ${state.message}');
           }
 
-          return _buildMessage('Find your favorite films');
+          return _buildMessage(context, 'Find your favorite films');
         },
       ),
     );
   }
 
-  Widget _buildMessage(String text) {
+  Widget _buildMessage(BuildContext context, String text) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.movie_creation_outlined, size: 64, color: AppColors.textMuted.withOpacity(0.3)),
+          Icon(Icons.movie_creation_outlined, size: 64, color: context.textMuted.withOpacity(0.3)),
           const SizedBox(height: 16),
           Text(
             text,
             style: GoogleFonts.outfit(
               fontSize: 16,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
             ),
           ),
         ],

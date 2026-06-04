@@ -44,7 +44,7 @@ class MovieDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       body: BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
         builder: (context, state) {
           if (state is MovieDetailsLoading) {
@@ -66,7 +66,7 @@ class MovieDetailsView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildMainInfo(movie),
+                        _buildMainInfo(context, movie),
                         const SizedBox(height: 24),
                         if (movie.trailerKey != null) ...[
                           _buildTrailerButton(context, movie.trailerKey!),
@@ -74,21 +74,21 @@ class MovieDetailsView extends StatelessWidget {
                         ],
                         _buildActionButtons(context, movie, state.isInWatchlist, state.isWatched),
                         const SizedBox(height: 24),
-                        _buildSectionTitle('Overview'),
+                        _buildSectionTitle(context, 'Overview'),
                         const SizedBox(height: 8),
                         Text(
                           movie.overview ?? 'No overview available.',
                           style: GoogleFonts.outfit(
                             fontSize: 16,
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             height: 1.5,
                           ),
                         ),
                         const SizedBox(height: 24),
                         if (movie.cast != null && movie.cast!.isNotEmpty) ...[
-                          _buildSectionTitle('Top Cast'),
+                          _buildSectionTitle(context, 'Top Cast'),
                           const SizedBox(height: 12),
-                          _buildCastSection(movie.cast!),
+                          _buildCastSection(context, movie.cast!),
                         ],
                         const SizedBox(height: 32),
                       ],
@@ -105,7 +105,7 @@ class MovieDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildCastSection(List<CastModel> cast) {
+  Widget _buildCastSection(BuildContext context, List<CastModel> cast) {
     return SizedBox(
       height: 160,
       child: ListView.separated(
@@ -131,17 +131,17 @@ class MovieDetailsView extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : null,
-                    color: AppColors.surface,
+                    color: context.surface,
                   ),
                   child: actor.profilePath == null
-                      ? const Icon(Icons.person, color: AppColors.textMuted, size: 40)
+                      ? Icon(Icons.person, color: context.textMuted, size: 40)
                       : null,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   actor.name ?? '',
                   style: GoogleFonts.outfit(
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
@@ -152,7 +152,7 @@ class MovieDetailsView extends StatelessWidget {
                 Text(
                   actor.character ?? '',
                   style: GoogleFonts.outfit(
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                     fontSize: 11,
                   ),
                   textAlign: TextAlign.center,
@@ -171,7 +171,7 @@ class MovieDetailsView extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 450,
       pinned: true,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
         onPressed: () => Navigator.pop(context),
@@ -184,18 +184,18 @@ class MovieDetailsView extends StatelessWidget {
               '${ApiConstants.tmdbImageBaseUrl}/${ApiConstants.posterSize}${movie.posterPath ?? movie.backdropPath}',
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
-                color: AppColors.surface,
+                color: context.surface,
                 child: const Center(child: Icon(Icons.movie_outlined, size: 50, color: AppColors.textMuted)),
               ),
             ),
-            const DecoratedBox(
+            DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    AppColors.background,
+                    context.background,
                   ],
                 ),
               ),
@@ -206,7 +206,7 @@ class MovieDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildMainInfo(MovieDetailModel movie) {
+  Widget _buildMainInfo(BuildContext context, MovieDetailModel movie) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,7 +227,7 @@ class MovieDetailsView extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: context.textPrimary,
           ),
         ),
         const SizedBox(height: 12),
@@ -241,20 +241,20 @@ class MovieDetailsView extends StatelessWidget {
                   : '0.0',
               style: GoogleFonts.outfit(
                 fontSize: 18,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(width: 24),
             Text(
               movie.displayDate.split('-')[0],
-              style: GoogleFonts.outfit(fontSize: 16, color: AppColors.textSecondary),
+              style: GoogleFonts.outfit(fontSize: 16, color: context.textSecondary),
             ),
             const SizedBox(width: 24),
             if (movie.runtime != null)
               Text(
                 '${movie.runtime} min',
-                style: GoogleFonts.outfit(fontSize: 16, color: AppColors.textSecondary),
+                style: GoogleFonts.outfit(fontSize: 16, color: context.textSecondary),
               ),
           ],
         ),
@@ -264,9 +264,8 @@ class MovieDetailsView extends StatelessWidget {
             child: Wrap(
               spacing: 8,
               children: movie.genres!.map((g) => Chip(
-                label: Text(g.name ?? '', style: const TextStyle(fontSize: 12)),
-                backgroundColor: AppColors.surface,
-                labelStyle: const TextStyle(color: AppColors.textPrimary),
+                label: Text(g.name ?? '', style: TextStyle(fontSize: 12, color: context.textPrimary)),
+                backgroundColor: context.surface,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 visualDensity: VisualDensity.compact,
               )).toList(),
@@ -355,7 +354,7 @@ class MovieDetailsView extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Material(
-      color: isActive ? AppColors.primary : AppColors.surface,
+      color: isActive ? AppColors.primary : context.surface,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onTap,
@@ -370,7 +369,7 @@ class MovieDetailsView extends StatelessWidget {
               Text(
                 label,
                 style: GoogleFonts.outfit(
-                  color: isActive ? Colors.white : AppColors.textPrimary,
+                  color: isActive ? Colors.white : context.textPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -381,13 +380,13 @@ class MovieDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
       style: GoogleFonts.outfit(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: AppColors.textPrimary,
+        color: context.textPrimary,
       ),
     );
   }

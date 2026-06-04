@@ -26,7 +26,7 @@ class MovieCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: AppColors.surface,
+          color: context.surface,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -43,9 +43,9 @@ class MovieCard extends StatelessWidget {
                 ? Image.network(
                     '${ApiConstants.tmdbImageBaseUrl}/${ApiConstants.posterSize}${movie.posterPath}',
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _buildPlaceholder(),
+                    errorBuilder: (_, __, ___) => _buildPlaceholder(context),
                   )
-                : _buildPlaceholder(),
+                : _buildPlaceholder(context),
             Positioned(
               bottom: 0,
               left: 0,
@@ -99,9 +99,9 @@ class MovieCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceholder() {
+  Widget _buildPlaceholder(BuildContext context) {
     return Container(
-      color: AppColors.surface,
+      color: context.surface,
       child: const Center(
         child: Icon(Icons.movie_creation_outlined, color: AppColors.textMuted, size: 32),
       ),

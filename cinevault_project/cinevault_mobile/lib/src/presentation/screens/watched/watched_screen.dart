@@ -14,9 +14,9 @@ class WatchedScreen extends StatelessWidget {
     final database = getIt<AppDatabase>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.background,
         elevation: 0,
         title: Text(
           'Seen Movies',
@@ -32,7 +32,7 @@ class WatchedScreen extends StatelessWidget {
 
           final movies = snapshot.data!;
           if (movies.isEmpty) {
-            return _buildEmptyState();
+            return _buildEmptyState(context);
           }
 
           return GridView.builder(
@@ -62,21 +62,21 @@ class WatchedScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.check_circle_outline_rounded, size: 80, color: AppColors.textMuted.withOpacity(0.2)),
+          Icon(Icons.check_circle_outline_rounded, size: 80, color: context.textMuted.withOpacity(0.2)),
           const SizedBox(height: 16),
           Text(
             'No movies marked as seen',
-            style: GoogleFonts.outfit(color: AppColors.textSecondary, fontSize: 18),
+            style: GoogleFonts.outfit(color: context.textSecondary, fontSize: 18),
           ),
           const SizedBox(height: 8),
           Text(
             'Keep track of what you have watched',
-            style: GoogleFonts.outfit(color: AppColors.textMuted, fontSize: 14),
+            style: GoogleFonts.outfit(color: context.textMuted, fontSize: 14),
           ),
         ],
       ),

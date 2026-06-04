@@ -2,43 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  // Primary palette
   static const Color primary = Color(0xFF6366F1);
   static const Color primaryDark = Color(0xFF4F46E5);
   static const Color primaryLight = Color(0xFFA5B4FC);
-  
-  // Background
-  static const Color background = Color(0xFF0F1117);
-  static const Color surface = Color(0xFF1F2937);
-  static const Color surfaceLight = Color(0xFF374151);
-  
-  // Text
-  static const Color textPrimary = Color(0xFFF9FAFB);
-  static const Color textSecondary = Color(0xFF9CA3AF);
-  static const Color textMuted = Color(0xFF6B7280);
-  
-  // Accent
   static const Color accent = Color(0xFFF59E0B);
   static const Color accentDark = Color(0xFFD97706);
   static const Color success = Color(0xFF10B981);
   static const Color error = Color(0xFFEF4444);
-  
-  // Gradients
-  static const Gradient heroGradient = LinearGradient(
+}
+
+extension ThemeColors on BuildContext {
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
+
+  Color get background => isDark ? const Color(0xFF0F1117) : const Color(0xFFF3F4F6);
+  Color get surface => isDark ? const Color(0xFF1F2937) : const Color(0xFFFFFFFF);
+  Color get surfaceLight => isDark ? const Color(0xFF374151) : const Color(0xFFE5E7EB);
+  Color get textPrimary => isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
+  Color get textSecondary => isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280);
+  Color get textMuted => isDark ? const Color(0xFF6B7280) : const Color(0xFF9CA3AF);
+
+  Gradient get heroGradient => LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
       Colors.transparent,
-      Color(0xCC0F1117),
+      isDark ? const Color(0xCC0F1117) : const Color(0xCCF3F4F6),
     ],
   );
-  
-  static const Gradient cardGradient = LinearGradient(
+
+  Gradient get cardGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFF1F2937),
-      Color(0xFF111827),
+      isDark ? const Color(0xFF1F2937) : const Color(0xFFFFFFFF),
+      isDark ? const Color(0xFF111827) : const Color(0xFFF3F4F6),
     ],
   );
 }
@@ -49,16 +46,20 @@ class AppTheme {
 
   static ThemeData _buildTheme(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
-    
+    final colors = isDark
+        ? _DarkColors()
+        : _LightColors();
+
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: brightness,
-        surface: isDark ? AppColors.surface : Colors.white,
-        background: isDark ? AppColors.background : Colors.grey[50],
+        surface: colors.surface,
+        background: colors.background,
       ),
+      scaffoldBackgroundColor: colors.background,
       textTheme: GoogleFonts.interTextTheme(
         isDark ? ThemeData.dark().textTheme : ThemeData.light().textTheme,
       ).copyWith(
@@ -75,11 +76,11 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: isDark ? AppColors.surface : Colors.white,
+        color: colors.surface,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isDark ? AppColors.surfaceLight : Colors.grey[200],
+        fillColor: colors.surfaceLight,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -96,23 +97,41 @@ class AppTheme {
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: isDark ? AppColors.surface : Colors.white,
+        backgroundColor: colors.surface,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textMuted,
+        unselectedItemColor: colors.textMuted,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
-        backgroundColor: isDark ? AppColors.background : Colors.white,
-        foregroundColor: isDark ? AppColors.textPrimary : Colors.black87,
+        backgroundColor: colors.background,
+        foregroundColor: colors.textPrimary,
         titleTextStyle: GoogleFonts.inter(
-          fontSize: 20, 
+          fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: isDark ? AppColors.textPrimary : Colors.black87,
+          color: colors.textPrimary,
         ),
       ),
     );
   }
+}
+
+class _DarkColors {
+  final Color background = const Color(0xFF0F1117);
+  final Color surface = const Color(0xFF1F2937);
+  final Color surfaceLight = const Color(0xFF374151);
+  final Color textPrimary = const Color(0xFFF9FAFB);
+  final Color textSecondary = const Color(0xFF9CA3AF);
+  final Color textMuted = const Color(0xFF6B7280);
+}
+
+class _LightColors {
+  final Color background = const Color(0xFFF3F4F6);
+  final Color surface = const Color(0xFFFFFFFF);
+  final Color surfaceLight = const Color(0xFFE5E7EB);
+  final Color textPrimary = const Color(0xFF111827);
+  final Color textSecondary = const Color(0xFF6B7280);
+  final Color textMuted = const Color(0xFF9CA3AF);
 }
