@@ -27,7 +27,7 @@ dependencies:
   sqflite: ^2.3.0
   path_provider: ^2.1.2
   # Networking
-  dio: ^5.4.3+1
+  http: ^1.2.1
 
   # Auth
   shared_preferences: ^2.2.3

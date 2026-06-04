@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/di/injection.dart';
 import '../../../data/database/app_database.dart';
+import '../../../presentation/blocs/app/app_bloc.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../data/datasources/supabase_service.dart';
@@ -208,9 +211,28 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        _buildMenuItem(Icons.notifications_none_rounded, 'Notifications', 'Manage alerts'),
-        _buildMenuItem(Icons.color_lens_outlined, 'Theme', 'Dark Mode active'),
-        _buildMenuItem(Icons.info_outline_rounded, 'About CineFlash', 'Version 1.0.0'),
+        BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            final isDark = state is AppReady ? state.isDarkMode : true;
+            return _buildMenuItem(
+              Icons.color_lens_outlined,
+              'Theme',
+              isDark ? 'Dark Mode active' : 'Light Mode active',
+              onTap: () => context.read<AppBloc>().add(ToggleTheme()),
+            );
+          },
+        ),
+        _buildMenuItem(
+          Icons.info_outline_rounded,
+          'About CineFlash',
+          'Version 1.0.0',
+          onTap: () async {
+            final url = Uri.parse('https://github.com/StailiSaad/CINEFLASH');
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url, mode: LaunchMode.externalApplication);
+            }
+          },
+        ),
         _buildMenuItem(
           Icons.logout_rounded,
           'Logout',

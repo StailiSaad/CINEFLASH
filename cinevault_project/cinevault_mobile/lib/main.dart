@@ -40,13 +40,18 @@ class CineFlashApp extends StatelessWidget {
           create: (_) => getIt<MoviesBloc>(),
         ),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'CineFlash',
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
-        routerConfig: AppRouter.router,
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) {
+          final isDark = state is AppReady ? state.isDarkMode : false;
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'CineFlash',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+            routerConfig: AppRouter.router,
+          );
+        },
       ),
     );
   }

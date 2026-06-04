@@ -1,5 +1,5 @@
-
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../models/movie_model.dart';
 import '../datasources/movie_api_service.dart';
 import '../database/app_database.dart';
@@ -19,23 +19,26 @@ abstract class MovieRepository {
 class MovieRepositoryImpl implements MovieRepository {
   final MovieApiService _apiService;
   final AppDatabase _database;
-  final Dio _directDio = Dio();
+  final http.Client _directClient = http.Client();
 
   MovieRepositoryImpl(this._apiService, this._database);
+
+  Future<Map<String, dynamic>> _directGet(String path, {Map<String, String>? queryParams}) async {
+    final uri = Uri.parse('${ApiConstants.tmdbBaseUrl}$path').replace(queryParameters: queryParams);
+    final response = await _directClient.get(uri);
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
 
   @override
   Future<Result<List<MovieModel>>> getTrendingMovies({int page = 1}) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/trending/movie/week',
-        queryParameters: {'api_key': ApiConstants.tmdbApiKey, 'page': page},
-      );
-      final list = MovieListResponse.fromJson(res.data).results;
+      final data = await _directGet('/trending/movie/week', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'page': '$page',
+      });
+      final list = MovieListResponse.fromJson(data).results;
       final movies = list.map((m) => m.copyWith(mediaType: 'movie')).toList();
-      
-      // Cache locally
       await _cacheMovies(movies, trending: true);
-      
       return Result.success(movies);
     } catch (e) {
       try {
@@ -53,16 +56,13 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<List<MovieModel>>> getPopularMovies({int page = 1}) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/movie/popular',
-        queryParameters: {'api_key': ApiConstants.tmdbApiKey, 'page': page},
-      );
-      final list = MovieListResponse.fromJson(res.data).results;
+      final data = await _directGet('/movie/popular', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'page': '$page',
+      });
+      final list = MovieListResponse.fromJson(data).results;
       final movies = list.map((m) => m.copyWith(mediaType: 'movie')).toList();
-      
-      // Cache locally
       await _cacheMovies(movies, popular: true);
-      
       return Result.success(movies);
     } catch (e) {
       try {
@@ -80,16 +80,13 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<List<MovieModel>>> getTopRatedMovies({int page = 1}) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/movie/top_rated',
-        queryParameters: {'api_key': ApiConstants.tmdbApiKey, 'page': page},
-      );
-      final list = MovieListResponse.fromJson(res.data).results;
+      final data = await _directGet('/movie/top_rated', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'page': '$page',
+      });
+      final list = MovieListResponse.fromJson(data).results;
       final movies = list.map((m) => m.copyWith(mediaType: 'movie')).toList();
-      
-      // Cache locally
       await _cacheMovies(movies, topRated: true);
-      
       return Result.success(movies);
     } catch (e) {
       try {
@@ -107,14 +104,11 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<MovieDetailModel>> getMovieDetails(int movieId) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/movie/$movieId',
-        queryParameters: {
-          'api_key': ApiConstants.tmdbApiKey,
-          'append_to_response': 'videos,credits',
-        },
-      );
-      final detail = MovieDetailModel.fromJson(res.data);
+      final data = await _directGet('/movie/$movieId', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'append_to_response': 'videos,credits',
+      });
+      final detail = MovieDetailModel.fromJson(data);
       return Result.success(detail.copyWith(mediaType: 'movie'));
     } catch (e) {
       return Result.failure(Exception('Movie info failed. ID: $movieId'));
@@ -124,14 +118,11 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<MovieDetailModel>> getTvDetails(int tvId) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/tv/$tvId',
-        queryParameters: {
-          'api_key': ApiConstants.tmdbApiKey,
-          'append_to_response': 'videos,credits',
-        },
-      );
-      final detail = MovieDetailModel.fromJson(res.data);
+      final data = await _directGet('/tv/$tvId', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'append_to_response': 'videos,credits',
+      });
+      final detail = MovieDetailModel.fromJson(data);
       return Result.success(detail.copyWith(mediaType: 'tv'));
     } catch (e) {
       return Result.failure(Exception('TV info failed. ID: $tvId'));
@@ -141,16 +132,13 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<List<MovieModel>>> getTrendingTv({int page = 1}) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/trending/tv/week',
-        queryParameters: {'api_key': ApiConstants.tmdbApiKey, 'page': page},
-      );
-      final list = MovieListResponse.fromJson(res.data).results;
+      final data = await _directGet('/trending/tv/week', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'page': '$page',
+      });
+      final list = MovieListResponse.fromJson(data).results;
       final tvList = list.map((m) => m.copyWith(mediaType: 'tv')).toList();
-      
-      // Cache locally
       await _cacheMovies(tvList, trending: true);
-      
       return Result.success(tvList);
     } catch (e) {
       try {
@@ -168,15 +156,12 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Result<List<MovieModel>>> searchMovies(String query, {int page = 1}) async {
     try {
-      final res = await _directDio.get(
-        '${ApiConstants.tmdbBaseUrl}/search/multi',
-        queryParameters: {
-          'api_key': ApiConstants.tmdbApiKey,
-          'query': query,
-          'page': page,
-        },
-      );
-      final list = MovieListResponse.fromJson(res.data).results;
+      final data = await _directGet('/search/multi', queryParams: {
+        'api_key': ApiConstants.tmdbApiKey,
+        'query': query,
+        'page': '$page',
+      });
+      final list = MovieListResponse.fromJson(data).results;
       final filtered = list
           .where((m) => m.mediaType != 'person')
           .map((m) => m.copyWith(mediaType: m.mediaType ?? 'movie'))
